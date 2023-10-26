@@ -1,0 +1,2 @@
+- dotnet new -i SAFE.Template
+- dotnet new SAFE
