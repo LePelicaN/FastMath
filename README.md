@@ -2,6 +2,18 @@
 - dotnet new SAFE
 - dotnet tool restore
 - dotnet run
+- install last nodejs
+- npm install -g npm
+- install nvm
+- reboot
+- C:\Users\jonat\AppData\Roaming\nvm\nvm.exe install 21.1.0
+- nvm use 21.1.0
+- nvm install 18.18.2
+- nvm use 18.18.2
+- nvm install 16.20.2
+- nvm use 16.20.2
+- dotnet run
+
 
 # SAFE Template
 
