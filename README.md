@@ -1,6 +1,7 @@
 - dotnet new -i SAFE.Template
 - dotnet new SAFE
 - dotnet tool restore
+- dotnet run
 
 # SAFE Template
 
