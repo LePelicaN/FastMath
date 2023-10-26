@@ -8,6 +8,7 @@ open Shared
 
 module Storage =
     let todos = ResizeArray()
+    let exercices = ResizeArray()
 
     let addTodo (todo: Todo) =
         if Todo.isValid todo.Description then
@@ -16,15 +17,26 @@ module Storage =
         else
             Error "Invalid todo"
 
+    let addExercice exercice =
+      exercices.Add  exercice
+
+    let addAllExercices () =
+      for lhs in 1..10 do
+        for rhs in 1..10 do
+          addExercice (Exercice.create Multiplication lhs rhs (lhs * rhs))
+
     do
         addTodo (Todo.create "Create new SAFE project")
         |> ignore
 
         addTodo (Todo.create "Write your app") |> ignore
         addTodo (Todo.create "Ship it !!!") |> ignore
+        addAllExercices ()
 
-let todosApi =
-    { getTodos = fun () -> async { return Storage.todos |> List.ofSeq }
+// let todosApi =
+let serverApi =
+    {
+      getTodos = fun () -> async { return Storage.todos |> List.ofSeq }
       addTodo =
         fun todo ->
             async {
@@ -32,12 +44,20 @@ let todosApi =
                     match Storage.addTodo todo with
                     | Ok () -> todo
                     | Error e -> failwith e
-            } }
+            }
+//             }
+
+// let exercicesAPI = {
+      getNextExercices = fun () -> async { return Storage.exercices |> List.ofSeq }
+      newResult = fun exercice -> async { () }
+  }
 
 let webApp =
     Remoting.createApi ()
     |> Remoting.withRouteBuilder Route.builder
-    |> Remoting.fromValue todosApi
+    // |> Remoting.fromValue todosApi
+    // |> Remoting.fromValue exercicesAPI
+    |> Remoting.fromValue serverApi 
     |> Remoting.buildHttpHandler
 
 let app =
